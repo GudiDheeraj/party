@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gourmet Menu Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 21%);
+            background-size: 20px 20px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .dish-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-card:hover .dish-image {
+            transform: scale(1.1);
+        }
+
+
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .dish-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .dish-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            border-radius: 2px;
+        }
+
+        .dish-description {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .ingredients-section {
+            margin-top: 20px;
+        }
+
+        .ingredients-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ingredients-title::before {
+            content: '🌿';
+            font-size: 20px;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .ingredient-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #495057;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .ingredient-item:hover {
+            background: linear-gradient(135deg, #feca57, #ff6b6b);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .dietary-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dietary-tag {
+            background: #27ae60;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .dietary-tag.vegetarian {
+            background: #27ae60;
+        }
+
+        .dietary-tag.gluten-free {
+            background: #e67e22;
+        }
+
+        .dietary-tag.spicy {
+            background: #e74c3c;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
+            }
+
+            .menu-card {
+                margin: 0 10px;
+            }
+
+            .card-header {
+                height: 180px;
+            }
+
+            .dish-title {
+                font-size: 20px;
+            }
+
+            .ingredients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 8px;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .card-header {
+                height: 150px;
+            }
+
+            .dish-title {
+                font-size: 18px;
+            }
+
+            .ingredients-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .price-tag {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+
+        /* Animation for cards entering view */
+        .menu-card {
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <!-- Card 1: Truffle Risotto -->
+        <div class="menu-card">
+            <div class="card-header">
+                <div style="background: linear-gradient(45deg, #ff9a56, #ffca3a); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">🍚</div>
+            </div>
+            <div class="card-content">
+                <h3 class="dish-title">Truffle Mushroom Risotto</h3>
+                <p class="dish-description">Creamy arborio rice slow-cooked with wild mushrooms, finished with black truffle oil and aged parmesan</p>
+                
+                <div class="ingredients-section">
+                    <h4 class="ingredients-title">Ingredients</h4>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">Arborio Rice</div>
+                        <div class="ingredient-item">Wild Mushrooms</div>
+                        <div class="ingredient-item">Black Truffle Oil</div>
+                        <div class="ingredient-item">Parmesan</div>
+                        <div class="ingredient-item">White Wine</div>
+                        <div class="ingredient-item">Vegetable Stock</div>
+                        <div class="ingredient-item">Onions</div>
+                        <div class="ingredient-item">Garlic</div>
+                    </div>
+                </div>
+                
+                <div class="dietary-info">
+                    <span class="dietary-tag vegetarian">Vegetarian</span>
+                    <span class="dietary-tag gluten-free">Gluten Free</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Grilled Salmon -->
+        <div class="menu-card">
+            <div class="card-header">
+                <div style="background: linear-gradient(45deg, #ff6b9d, #c44569); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">🐟</div>
+            </div>
+            <div class="card-content">
+                <h3 class="dish-title">Atlantic Grilled Salmon</h3>
+                <p class="dish-description">Fresh Atlantic salmon grilled to perfection, served with lemon herb butter and seasonal vegetables</p>
+                
+                <div class="ingredients-section">
+                    <h4 class="ingredients-title">Ingredients</h4>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">Atlantic Salmon</div>
+                        <div class="ingredient-item">Lemon</div>
+                        <div class="ingredient-item">Fresh Herbs</div>
+                        <div class="ingredient-item">Butter</div>
+                        <div class="ingredient-item">Asparagus</div>
+                        <div class="ingredient-item">Baby Potatoes</div>
+                        <div class="ingredient-item">Olive Oil</div>
+                        <div class="ingredient-item">Sea Salt</div>
+                    </div>
+                </div>
+                
+                <div class="dietary-info">
+                    <span class="dietary-tag gluten-free">Gluten Free</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Spicy Thai Curry -->
+        <div class="menu-card">
+            <div class="card-header">
+                <div style="background: linear-gradient(45deg, #ff4757, #ffa502); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">🍛</div>
+            </div>
+            <div class="card-content">
+                <h3 class="dish-title">Thai Green Curry</h3>
+                <p class="dish-description">Authentic Thai green curry with tender chicken, coconut milk, and aromatic spices served with jasmine rice</p>
+                
+                <div class="ingredients-section">
+                    <h4 class="ingredients-title">Ingredients</h4>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">Chicken Breast</div>
+                        <div class="ingredient-item">Coconut Milk</div>
+                        <div class="ingredient-item">Green Curry Paste</div>
+                        <div class="ingredient-item">Thai Basil</div>
+                        <div class="ingredient-item">Bell Peppers</div>
+                        <div class="ingredient-item">Eggplant</div>
+                        <div class="ingredient-item">Jasmine Rice</div>
+                        <div class="ingredient-item">Fish Sauce</div>
+                    </div>
+                </div>
+                
+                <div class="dietary-info">
+                    <span class="dietary-tag spicy">Spicy</span>
+                    <span class="dietary-tag gluten-free">Gluten Free</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Chocolate Dessert -->
+        <div class="menu-card">
+            <div class="card-header">
+                <div class="price-tag">$16</div>
+                <div style="background: linear-gradient(45deg, #6c5ce7, #a29bfe); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px;">🍫</div>
+            </div>
+            <div class="card-content">
+                <h3 class="dish-title">Dark Chocolate Soufflé</h3>
+                <p class="dish-description">Light and airy dark chocolate soufflé served warm with vanilla ice cream and berry compote</p>
+                
+                <div class="ingredients-section">
+                    <h4 class="ingredients-title">Ingredients</h4>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">Dark Chocolate</div>
+                        <div class="ingredient-item">Eggs</div>
+                        <div class="ingredient-item">Heavy Cream</div>
+                        <div class="ingredient-item">Sugar</div>
+                        <div class="ingredient-item">Vanilla</div>
+                        <div class="ingredient-item">Mixed Berries</div>
+                        <div class="ingredient-item">Butter</div>
+                        <div class="ingredient-item">Flour</div>
+                    </div>
+                </div>
+                
+                <div class="dietary-info">
+                    <span class="dietary-tag vegetarian">Vegetarian</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
